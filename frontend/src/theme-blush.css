@@ -1,0 +1,150 @@
+/* ============================================================================
+   Blush theme (fork) — warm ivory, frosted glass, one slow moving glow.
+   ----------------------------------------------------------------------------
+   Loaded after index.css (main.jsx) and kept in this one file so upstream
+   openGym updates merge cleanly: everything here overrides, nothing upstream is
+   edited except the import and the Home layout (views/Home.jsx).
+
+   The theme is light-only. Tokens are marked !important so the app's own
+   data-theme / data-accent / prefers-contrast switches cannot repaint it.
+   ========================================================================== */
+
+/* Urbanist (SIL OFL, public/fonts/Urbanist-OFL.txt) — self-hosted, the CSP blocks font CDNs. */
+@font-face{
+  font-family:'Urbanist';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('/fonts/urbanist-latin-wght-normal.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Urbanist';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('/fonts/urbanist-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+/* ---------------------------------------------------------------- tokens -- */
+:root{
+  color-scheme:light;
+
+  --bg:#F7F3EE !important;
+  --bg-el:#FBF8F4 !important;
+  --surface:#FFFDFB !important;
+  --surface-2:#F2EBE4 !important;
+  --surface-3:#E9E0D7 !important;
+
+  --label:#2A231F !important;
+  --label-2:rgba(42,35,31,.64) !important;
+  --label-3:rgba(42,35,31,.42) !important;
+  --label-4:rgba(42,35,31,.2) !important;
+
+  --sep:rgba(42,35,31,.12) !important;
+  --sep-op:rgba(42,35,31,.08) !important;
+
+  /* status colours: Apple light values, with yellow and teal darkened so text in them reads on ivory */
+  --blue:#2F6FD6 !important; --green:#2E8B57 !important; --red:#D2453E !important; --orange:#D97A2B !important;
+  --yellow:#A87A12 !important; --teal:#2A8A9A !important; --indigo:#6A5FD0 !important; --pink:#C9536E !important;
+  --purple:#9B5CC4 !important; --mint:#2C9C8E !important; --brown:#9A7656 !important; --grey:#8E857E !important;
+
+  --acc:#A8535A !important;
+  --acc-2:#8E434A !important;
+  --on-acc:#FFFFFF !important;
+  --acc-soft:rgba(168,83,90,.12) !important;
+  --acc-line:rgba(168,83,90,.35) !important;
+
+  /* blush palette */
+  --ink:#2A231F;
+  --blush:#F3D0D4;
+  --peach:#F7A982;
+  --rose:#EDB4BC;
+  --lilac:#D9C8F2;
+
+  /* glass */
+  --glass:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.55));
+  --glass-ring:inset 0 0 0 1px rgba(255,255,255,.95),inset 0 1px 0 #fff;
+  --glass-shadow:0 8px 24px rgba(120,80,60,.08),0 1px 2px rgba(120,80,60,.05);
+
+  --r-sm:12px !important; --r:16px !important; --r-lg:22px !important; --r-xl:30px !important; --r-card:26px !important;
+}
+
+html,body{background:var(--bg)}
+body{font-family:'Urbanist',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;letter-spacing:0}
+.hdr h1{font-weight:600;letter-spacing:-.02em}
+.card .big{font-weight:400;letter-spacing:-.02em}
+
+/* ------------------------------------------------------------ glass cards -- */
+.card,.tile,.sect-b,.menu-group.grouped .menu-list,.exlink-card,.efftbl{
+  background:var(--glass);
+  box-shadow:var(--glass-ring),var(--glass-shadow);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+}
+/* list rows: the same look without the blur — there can be hundreds of them */
+.item{background:var(--glass);box-shadow:var(--glass-ring),0 4px 14px rgba(120,80,60,.06)}
+.item:active,.card.tappable:active{background:var(--surface-2)}
+.iconbtn{background:var(--glass);box-shadow:var(--glass-ring),0 4px 14px rgba(120,80,60,.08)}
+
+/* buttons: primary is the espresso pill from the design, the accent stays for highlights */
+.btn{border-radius:999px}
+.btn.primary{background:var(--ink);color:#F7F3EE}
+.btn.primary:active{background:#000}
+.btn.sm,.btn.xs{border-radius:999px}
+.tag{border-radius:999px}
+.tag.acc{background:var(--ink);color:#F7F3EE}
+
+/* week strip: today is a dark pill */
+.wday{border-radius:20px}
+.wday.today .num{background:var(--ink) !important;color:#F7F3EE !important}
+
+/* ---------------------------------------------------------- floating tab bar -- */
+#tabbar{
+  inset-inline-start:12px;inset-inline-end:12px;bottom:calc(8px + var(--sab));
+  padding:6px 6px 6px;border-radius:32px;border-top:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74));
+  box-shadow:var(--glass-ring),0 12px 32px rgba(120,80,60,.14);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+}
+:root[data-theme="light"] #tabbar{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.74))}
+#tabbar button{color:var(--label-2)}
+#tabbar button .icn{color:inherit}
+#tabbar button.on{color:var(--ink)}
+#tabbar button.start{margin-top:-18px}
+#tabbar button.start .cir{background:var(--blush);color:var(--ink);box-shadow:0 8px 20px -6px rgba(168,83,90,.45)}
+#tabbar button.start span{color:var(--ink)}
+#timer{border-radius:26px}
+
+/* ------------------------------------------------------------------- home -- */
+.home-bento .week-card{padding:10px 10px 12px}
+.home-bento .bento-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.home-bento .bento-2>.card{margin-bottom:0;min-height:128px;display:flex;flex-direction:column;justify-content:space-between}
+.home-bento .bento-2>.card:only-child{grid-column:span 2;min-height:0}
+
+/* hero: today's session over a slow peach / rose / lilac glow */
+.hero-card{position:relative;overflow:hidden;isolation:isolate;padding:18px}
+.hero-glow{position:absolute;border-radius:50%;pointer-events:none;z-index:-1;filter:blur(18px)}
+.hero-glow.a{right:-60px;top:-40px;width:240px;height:240px;
+  background:radial-gradient(circle at 40% 40%,var(--peach) 0%,var(--rose) 40%,rgba(237,180,188,0) 72%);
+  animation:blush-glow-a 7s ease-in-out infinite alternate}
+.hero-glow.b{right:60px;bottom:-90px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(217,200,242,.9) 0%,rgba(217,200,242,0) 70%);
+  animation:blush-glow-b 9s ease-in-out infinite alternate}
+@keyframes blush-glow-a{0%{transform:translate(-10px,0) scale(1)}100%{transform:translate(24px,-16px) scale(1.2)}}
+@keyframes blush-glow-b{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-30px,20px) scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.hero-glow{animation:none}}
+
+.hero-card .today-row{margin-top:0;padding:4px 2px;background:none;align-items:flex-end;min-height:120px}
+.hero-card .today-row:active,.hero-card .today-row:hover{background:none}
+.hero-card .today-row>.row{align-items:flex-end}
+.hero-card .today-row .lrow-i{display:none}
+.hero-card .today-row .lbl2{text-transform:none;letter-spacing:0;font-size:13px;font-weight:500;color:var(--label-2)}
+.hero-card .today-row .ttl{font-size:32px;font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-top:6px}
+.hero-card .today-row .ss{color:var(--label-2)}
+.hero-card .today-row .tag{padding:10px 18px;font-size:15px;font-weight:600}
+
+/* ---------------------------------------------------- reduced transparency -- */
+@media (prefers-reduced-transparency: reduce){
+  .card,.tile,.sect-b,.menu-group.grouped .menu-list,.exlink-card,.efftbl,#tabbar{
+    -webkit-backdrop-filter:none;backdrop-filter:none;background:var(--surface)}
+}
+
+/* the two half-width Home cards: no trailing chevrons, soft blush icon chips */
+.home-bento .bento-2 .chev{display:none}
+.home-bento .bento-2 .lrow-i{background:var(--blush) !important;color:var(--ink)}
+.home-bento .bento-2 .ttl{font-size:20px;font-weight:500}
